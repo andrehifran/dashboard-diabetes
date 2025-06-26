@@ -1,0 +1,101 @@
+Nome,Cidade,Estado,Faixa Etária,Sexo,CID,Data da Consulta
+Fernanda,Ji-Paraná,RO,0-17,Masculino,E11,2024-08-15
+Juliana,Porto Velho,RO,0-17,Masculino,E12,2024-08-06
+Eduardo,Ji-Paraná,RO,31-45,Masculino,E12,2024-12-10
+Ana,Vilhena,RO,31-45,Feminino,E14,2025-04-14
+Gustavo,Vilhena,RO,18-30,Masculino,E14,2025-04-18
+Juliana,Ariquemes,RO,46-60,Feminino,E10,2024-07-22
+Daniela,Cacoal,RO,46-60,Masculino,E14,2025-03-27
+Daniela,Vilhena,RO,0-17,Feminino,E14,2024-07-03
+Fernanda,Ariquemes,RO,31-45,Feminino,E11,2024-11-12
+Fernanda,Vilhena,RO,18-30,Masculino,E13,2024-12-08
+Gustavo,Vilhena,RO,61+,Feminino,E14,2025-02-12
+Fernanda,Ariquemes,RO,31-45,Masculino,E12,2024-08-14
+Juliana,Cacoal,RO,61+,Feminino,E11,2025-02-16
+Juliana,Ariquemes,RO,46-60,Feminino,E10,2024-07-01
+Carlos,Ji-Paraná,RO,0-17,Feminino,E13,2025-02-22
+Juliana,Cacoal,RO,18-30,Feminino,E11,2025-03-04
+Daniela,Vilhena,RO,18-30,Masculino,E10,2025-02-23
+Bruno,Cacoal,RO,18-30,Feminino,E13,2024-08-05
+Fernanda,Ji-Paraná,RO,0-17,Feminino,E11,2024-08-28
+Helena,Ariquemes,RO,31-45,Feminino,E13,2025-02-01
+Helena,Cacoal,RO,18-30,Masculino,E12,2024-07-21
+Bruno,Ariquemes,RO,0-17,Feminino,E11,2024-08-09
+Gustavo,Cacoal,RO,18-30,Feminino,E14,2025-05-27
+Gustavo,Ji-Paraná,RO,0-17,Feminino,E14,2024-08-01
+Juliana,Ji-Paraná,RO,31-45,Masculino,E11,2025-01-11
+Daniela,Ji-Paraná,RO,31-45,Masculino,E13,2025-05-09
+Daniela,Ji-Paraná,RO,61+,Feminino,E10,2025-05-17
+Igor,Ji-Paraná,RO,61+,Masculino,E11,2025-04-07
+Bruno,Ji-Paraná,RO,18-30,Masculino,E13,2025-03-25
+Ana,Porto Velho,RO,46-60,Masculino,E10,2025-06-12
+Bruno,Vilhena,RO,61+,Feminino,E11,2025-05-03
+Carlos,Ji-Paraná,RO,0-17,Masculino,E11,2024-08-21
+Igor,Porto Velho,RO,61+,Feminino,E13,2024-12-19
+Bruno,Vilhena,RO,31-45,Masculino,E11,2024-06-29
+Helena,Porto Velho,RO,18-30,Masculino,E13,2025-05-25
+Juliana,Porto Velho,RO,18-30,Masculino,E11,2025-04-28
+Bruno,Vilhena,RO,0-17,Feminino,E13,2024-11-25
+Ana,Cacoal,RO,61+,Masculino,E11,2024-09-11
+Eduardo,Porto Velho,RO,31-45,Feminino,E14,2024-09-20
+Ana,Vilhena,RO,31-45,Feminino,E13,2025-01-15
+Fernanda,Cacoal,RO,46-60,Feminino,E14,2025-02-08
+Daniela,Ji-Paraná,RO,31-45,Masculino,E11,2024-11-12
+Daniela,Ji-Paraná,RO,18-30,Masculino,E14,2024-08-11
+Fernanda,Ariquemes,RO,46-60,Masculino,E12,2024-09-07
+Juliana,Porto Velho,RO,46-60,Feminino,E13,2024-09-01
+Igor,Cacoal,RO,61+,Feminino,E13,2025-05-26
+Fernanda,Porto Velho,RO,31-45,Feminino,E11,2025-04-28
+Gustavo,Vilhena,RO,61+,Masculino,E10,2024-12-17
+Fernanda,Cacoal,RO,31-45,Feminino,E13,2025-05-06
+Daniela,Ji-Paraná,RO,0-17,Masculino,E10,2024-09-03
+Ana,Vilhena,RO,0-17,Masculino,E11,2024-08-10
+Helena,Vilhena,RO,61+,Feminino,E13,2025-01-26
+Daniela,Porto Velho,RO,61+,Masculino,E14,2025-02-09
+Helena,Porto Velho,RO,61+,Masculino,E10,2024-09-05
+Ana,Ariquemes,RO,31-45,Feminino,E12,2024-11-05
+Eduardo,Ariquemes,RO,18-30,Feminino,E13,2025-06-10
+Gustavo,Ariquemes,RO,31-45,Feminino,E14,2024-07-26
+Juliana,Ariquemes,RO,18-30,Masculino,E10,2024-07-17
+Helena,Ji-Paraná,RO,46-60,Masculino,E12,2024-10-08
+Juliana,Ji-Paraná,RO,61+,Masculino,E11,2025-05-26
+Igor,Vilhena,RO,61+,Masculino,E11,2024-09-20
+Bruno,Ariquemes,RO,31-45,Masculino,E11,2025-05-30
+Eduardo,Vilhena,RO,0-17,Feminino,E12,2025-04-25
+Gustavo,Ariquemes,RO,61+,Masculino,E13,2024-07-28
+Juliana,Porto Velho,RO,46-60,Feminino,E12,2024-09-26
+Helena,Vilhena,RO,18-30,Feminino,E13,2025-03-31
+Ana,Vilhena,RO,31-45,Masculino,E13,2025-01-08
+Fernanda,Ji-Paraná,RO,46-60,Feminino,E13,2025-01-19
+Bruno,Ariquemes,RO,31-45,Feminino,E14,2025-03-20
+Ana,Ji-Paraná,RO,18-30,Masculino,E10,2025-03-19
+Carlos,Ji-Paraná,RO,31-45,Masculino,E12,2024-09-08
+Gustavo,Cacoal,RO,31-45,Masculino,E13,2025-03-20
+Daniela,Cacoal,RO,46-60,Masculino,E12,2025-04-29
+Igor,Cacoal,RO,46-60,Feminino,E14,2025-05-22
+Eduardo,Cacoal,RO,18-30,Masculino,E14,2025-01-13
+Fernanda,Ariquemes,RO,46-60,Masculino,E11,2025-01-13
+Gustavo,Ariquemes,RO,18-30,Masculino,E12,2025-05-11
+Igor,Cacoal,RO,18-30,Feminino,E10,2025-01-14
+Igor,Vilhena,RO,46-60,Masculino,E11,2024-10-18
+Gustavo,Porto Velho,RO,18-30,Masculino,E13,2024-10-10
+Bruno,Ariquemes,RO,18-30,Masculino,E10,2024-10-10
+Igor,Porto Velho,RO,31-45,Masculino,E10,2024-12-01
+Daniela,Cacoal,RO,31-45,Masculino,E14,2024-10-18
+Juliana,Ji-Paraná,RO,46-60,Feminino,E10,2024-10-20
+Bruno,Ariquemes,RO,61+,Masculino,E11,2024-08-15
+Juliana,Porto Velho,RO,18-30,Masculino,E10,2025-02-19
+Igor,Vilhena,RO,61+,Masculino,E10,2025-05-13
+Fernanda,Cacoal,RO,31-45,Feminino,E13,2024-08-27
+Igor,Vilhena,RO,61+,Masculino,E10,2025-04-27
+Daniela,Cacoal,RO,61+,Masculino,E13,2024-07-15
+Daniela,Ji-Paraná,RO,31-45,Feminino,E11,2025-03-12
+Gustavo,Ariquemes,RO,61+,Feminino,E11,2024-11-09
+Igor,Porto Velho,RO,18-30,Masculino,E11,2025-03-09
+Juliana,Porto Velho,RO,46-60,Masculino,E11,2025-04-09
+Juliana,Porto Velho,RO,0-17,Masculino,E11,2024-11-25
+Fernanda,Cacoal,RO,0-17,Feminino,E13,2024-12-13
+Fernanda,Ariquemes,RO,31-45,Feminino,E12,2025-02-14
+Fernanda,Cacoal,RO,61+,Masculino,E14,2025-06-15
+Ana,Porto Velho,RO,0-17,Masculino,E10,2025-06-17
+Ana,Ariquemes,RO,0-17,Feminino,E10,2024-08-03

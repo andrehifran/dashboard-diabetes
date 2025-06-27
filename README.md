@@ -80,5 +80,6 @@ streamlit run dashboards.py
 
 ## ✨ Autor
 
-Desenvolvido por [Andre Alexandre Hifran].  
+Desenvolvido por Andre Alexandre Hifran.  
 Quer me contratar ou colaborar? Me envie uma mensagem!
+

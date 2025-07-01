@@ -39,6 +39,7 @@ if aba == "Visão Geral":
         for _, row in dados.iterrows():
             pdf.cell(200, 10, txt=str(row.to_dict()), ln=True)
         pdf.output("relatorio.pdf")
+       
 
     if st.button("📄 Exportar como PDF"):
         exportar_pdf(df)
@@ -65,4 +66,16 @@ elif aba == "Evolução Temporal":
 elif aba == "Mapa dos Pacientes":
     st.title("🗺️ Mapa de Pacientes")
     mostrar_mapa(df)
+
+try:
+    from fpdf import FPDF
+    def exportar_pdf(dados):
+        pdf = FPDF()
+        pdf.add_page()
+        pdf.set_font("Arial", size=12)
+        for _, row in dados.iterrows():
+            pdf.cell(200, 10, txt=str(row.to_dict()), ln=True)
+        pdf.output("relatorio.pdf")
+except ModuleNotFoundError:
+    st.error("Biblioteca fpdf não instalada. Verifique o requirements.txt.")
 

@@ -49,8 +49,10 @@ if aba == "Visão Geral":
         pdf = FPDF()
         pdf.add_page()
         pdf.set_font("Arial", size=12)
+
         for _, row in dados[["Nome", "Cidade", "Estado"]].iterrows():
             linha = f"{row['Nome']} - {row['Cidade']} - {row['Estado']}"
+            linha_segura = linha.encode('latin1', 'ignore').decode('latin1')  # <<<<< AQUI é o segredo
             linha = remover_acentos(linha)
             pdf.cell(200, 10, txt=linha, ln=True)
         pdf.output("relatorio.pdf")

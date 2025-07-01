@@ -6,7 +6,9 @@ from utils.mapa import mostrar_mapa
 
 st.set_page_config(page_title="Dashboard Diabetes", layout="wide")
 
-st.title("📊 Dashboard de Pacientes com Diabetes")
+st.markdown("## 🧬 **Dashboard Interativo de Diabetes**")
+st.markdown("> Visualize, analise e interprete os dados dos pacientes com elegância e interatividade.")
+
 
 # Carregando os dados
 try:
@@ -28,6 +30,7 @@ df = df.merge(df_coords, on="Cidade", how="left")
 st.sidebar.header("🔍 Filtros")
 cidades = sorted(df['Cidade'].dropna().unique())
 faixas = sorted(df['Faixa Etária'].dropna().unique())
+
 
 cidade_selecionada = st.sidebar.multiselect("🏙️ Cidade", cidades)
 faixa_selecionada = st.sidebar.multiselect("🎂 Faixa Etária", faixas)

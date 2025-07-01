@@ -11,29 +11,38 @@ if senha != "1234":
     st.warning("Acesso negado. Informe a senha correta.")
     st.stop()
 
-# --- MENU DE NAVEGAÇÃO ---
-aba = st.sidebar.radio("📂 Navegação", ["Visão Geral", "Gráfico de Sexo", "Evolução Temporal", "Mapa dos Pacientes"])
-
 # --- DADOS ---
 df = pd.read_csv("data/dados_diabetes.csv")
 df_coords = pd.read_csv("data/coordenadas_cidades.csv")
 df_porc = pd.read_csv("data/porcentagem_por_sexo.csv")
 df = df.merge(df_coords, on="Cidade", how="left")
 
+# --- MENU LATERAL ---
+aba = st.sidebar.radio("📂 Navegação", [
+    "Visão Geral",
+    "Gráfico de Sexo",
+    "Evolução Temporal",
+    "Mapa dos Pacientes"
+])
+
 # --- VISÃO GERAL ---
 if aba == "Visão Geral":
     st.title("📋 Visão Geral")
     df["Ícone Sexo"] = df["Sexo"].map({"Feminino": "👩", "Masculino": "🧔"})
     st.dataframe(df[["Ícone Sexo", "Nome", "Cidade", "Estado", "Sexo", "CID", "Data da Consulta"]])
-    if st.button("📄 Exportar PDF"):
-        from fpdf import FPDF
+    
+    from fpdf import FPDF
+    def exportar_pdf(dados):
         pdf = FPDF()
         pdf.add_page()
         pdf.set_font("Arial", size=12)
-        for _, row in df.iterrows():
+        for _, row in dados.iterrows():
             pdf.cell(200, 10, txt=str(row.to_dict()), ln=True)
         pdf.output("relatorio.pdf")
-        st.success("PDF gerado!")
+
+    if st.button("📄 Exportar como PDF"):
+        exportar_pdf(df)
+        st.success("PDF gerado com sucesso!")
 
 # --- GRÁFICO DE SEXO ---
 elif aba == "Gráfico de Sexo":
@@ -56,3 +65,4 @@ elif aba == "Evolução Temporal":
 elif aba == "Mapa dos Pacientes":
     st.title("🗺️ Mapa de Pacientes")
     mostrar_mapa(df)
+

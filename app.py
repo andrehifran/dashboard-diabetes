@@ -1,9 +1,16 @@
+
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+from fpdf import FPDF
+import unicodedata
 from utils.mapa import mostrar_mapa
 
 st.set_page_config(page_title="Dashboard Diabetes", layout="wide")
+
+# --- Função para remover acentos ---
+def remover_acentos(texto):
+    return unicodedata.normalize('NFKD', str(texto)).encode('ASCII', 'ignore').decode('ASCII')
 
 # --- LOGIN ---
 senha = st.sidebar.text_input("🔐 Digite a senha:", type="password")
@@ -28,28 +35,39 @@ aba = st.sidebar.radio("📂 Navegação", [
 # --- VISÃO GERAL ---
 if aba == "Visão Geral":
     st.title("📋 Visão Geral")
-    df["Ícone Sexo"] = df["Sexo"].map({"Feminino": "👩", "Masculino": "🧔"})
-    st.dataframe(df[["Ícone Sexo", "Nome", "Cidade", "Estado", "Sexo", "CID", "Data da Consulta"]])
-    
-    from fpdf import FPDF
+    if "Sexo" in df.columns:
+        df["Ícone Sexo"] = df["Sexo"].map({"Feminino": "👩", "Masculino": "🧔"})
+
+    colunas = ['Nome', 'Cidade', 'Estado', 'Sexo', 'CID', 'Data da Consulta']
+    colunas = [col for col in colunas if col in df.columns]
+    if "Ícone Sexo" in df.columns:
+        colunas = ["Ícone Sexo"] + colunas
+
+    st.dataframe(df[colunas], use_container_width=True)
+
     def exportar_pdf(dados):
         pdf = FPDF()
         pdf.add_page()
         pdf.set_font("Arial", size=12)
-        for _, row in dados.iterrows():
-            pdf.cell(200, 10, txt=str(row.to_dict()), ln=True)
+        for _, row in dados[["Nome", "Cidade", "Estado"]].iterrows():
+            linha = f"{row['Nome']} - {row['Cidade']} - {row['Estado']}"
+            linha = remover_acentos(linha)
+            pdf.cell(200, 10, txt=linha, ln=True)
         pdf.output("relatorio.pdf")
-       
 
     if st.button("📄 Exportar como PDF"):
-        exportar_pdf(df)
-        st.success("PDF gerado com sucesso!")
+        try:
+            exportar_pdf(df)
+            st.success("PDF gerado com sucesso!")
+        except Exception as e:
+            st.error(f"Erro ao gerar PDF: {e}")
 
 # --- GRÁFICO DE SEXO ---
 elif aba == "Gráfico de Sexo":
     st.title("📊 Distribuição por Sexo")
     fig = px.pie(df_porc, names="Sexo", values="Porcentagem", hole=0.4,
                  color_discrete_map={"Feminino": "#ff69b4", "Masculino": "#1f77b4"})
+    fig.update_layout(paper_bgcolor="#0f1117", plot_bgcolor="#0f1117", font_color="white")
     st.plotly_chart(fig, use_container_width=True)
 
 # --- EVOLUÇÃO TEMPORAL ---
@@ -60,22 +78,11 @@ elif aba == "Evolução Temporal":
     evol.columns = ['Mês', 'Total']
     evol['Mês'] = evol['Mês'].astype(str)
     fig = px.line(evol, x='Mês', y='Total', markers=True)
+    fig.update_layout(paper_bgcolor="#0f1117", plot_bgcolor="#0f1117", font_color="white")
     st.plotly_chart(fig, use_container_width=True)
 
 # --- MAPA ---
 elif aba == "Mapa dos Pacientes":
     st.title("🗺️ Mapa de Pacientes")
     mostrar_mapa(df)
-
-try:
-    from fpdf import FPDF
-    def exportar_pdf(dados):
-        pdf = FPDF()
-        pdf.add_page()
-        pdf.set_font("Arial", size=12)
-        for _, row in dados.iterrows():
-            pdf.cell(200, 10, txt=str(row.to_dict()), ln=True)
-        pdf.output("relatorio.pdf")
-except ModuleNotFoundError:
-    st.error("Biblioteca fpdf não instalada. Verifique o requirements.txt.")
 

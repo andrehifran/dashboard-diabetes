@@ -1,4 +1,3 @@
-# dashboards.py
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -8,7 +7,6 @@ st.set_page_config(page_title="Dashboard Diabetes", layout="wide")
 
 st.markdown("## 🧬 **Dashboard Interativo de Diabetes**")
 st.markdown("> Visualize, analise e interprete os dados dos pacientes com elegância e interatividade.")
-
 
 # Carregando os dados
 try:
@@ -31,9 +29,11 @@ st.sidebar.header("🔍 Filtros")
 cidades = sorted(df['Cidade'].dropna().unique())
 faixas = sorted(df['Faixa Etária'].dropna().unique())
 
+cidade_selecionada = st.sidebar.multiselect("🏙️ Cidade", cidades, default=cidades)
+faixa_selecionada = st.sidebar.multiselect("🎂 Faixa Etária", faixas, default=faixas)
 
-cidade_selecionada = st.sidebar.multiselect("🏙️ Cidade", cidades)
-faixa_selecionada = st.sidebar.multiselect("🎂 Faixa Etária", faixas)
+if st.sidebar.button("🔄 Limpar Filtros"):
+    st.experimental_rerun()
 
 df_filtrado = df.copy()
 if cidade_selecionada:
@@ -42,25 +42,31 @@ if faixa_selecionada:
     df_filtrado = df_filtrado[df_filtrado['Faixa Etária'].isin(faixa_selecionada)]
 
 # Navegação
-aba = st.sidebar.radio("Menu", ["Visão Geral", "Gráfico de Sexo", "Evolução Temporal", "Mapa dos Pacientes"])
+aba = st.sidebar.radio("📁 Menu", ["Visão Geral", "Gráfico de Sexo", "Evolução Temporal", "Mapa dos Pacientes"])
 
 if aba == "Visão Geral":
-    st.subheader("👥 Total de Pacientes")
-    col1, col2 = st.columns(2)
-    col1.metric("Pacientes", len(df_filtrado))
-    col2.metric("Cidades", df_filtrado['Cidade'].nunique())
+    st.markdown("### 📊 Indicadores Gerais")
+    col1, col2, col3 = st.columns(3)
+    col1.metric("👥 Pacientes", len(df_filtrado))
+    col2.metric("🏙️ Cidades", df_filtrado['Cidade'].nunique())
+    col3.metric("🎂 Faixas Etárias", df_filtrado['Faixa Etária'].nunique())
+
+    sexo_emoji = {"Feminino": "👩", "Masculino": "🧔"}
+    if "Sexo" in df_filtrado.columns:
+        df_filtrado["Ícone Sexo"] = df_filtrado["Sexo"].map(sexo_emoji)
 
     colunas = ['Nome', 'Cidade', 'Estado', 'Faixa Etária', 'Sexo', 'CID', 'Data da Consulta']
     colunas = [c for c in colunas if c in df_filtrado.columns]
-    st.dataframe(df_filtrado[colunas], use_container_width=True)
+    mostrar = ["Ícone Sexo"] + colunas if "Ícone Sexo" in df_filtrado.columns else colunas
 
+    st.dataframe(df_filtrado[mostrar], use_container_width=True)
     st.download_button("⬇️ Baixar CSV", df_filtrado.to_csv(index=False), "dados_filtrados.csv")
 
 elif aba == "Gráfico de Sexo":
     if 'Faixa Etária' in df_porc.columns:
         df_pizza = df_porc[
-            (df_porc['Cidade'].isin(cidade_selecionada)) &
-            (df_porc['Faixa Etária'].isin(faixa_selecionada))
+            df_porc['Cidade'].isin(cidade_selecionada) &
+            df_porc['Faixa Etária'].isin(faixa_selecionada)
         ]
     else:
         df_pizza = df_porc[df_porc['Cidade'].isin(cidade_selecionada)]
@@ -75,7 +81,13 @@ elif aba == "Gráfico de Sexo":
             fig = px.bar(df_pizza, x="Sexo", y="Porcentagem", color="Sexo",
                          color_discrete_map={"Feminino": "#ff69b4", "Masculino": "#1f77b4"},
                          title="Distribuição por Sexo", template="plotly_dark")
-
+        fig.update_layout(
+            paper_bgcolor="#0f1117",
+            plot_bgcolor="#0f1117",
+            font_color="white",
+            title_font_size=20,
+            title_x=0.5
+        )
         st.plotly_chart(fig, use_container_width=True)
     else:
         st.warning("⚠️ Nenhum dado para os filtros selecionados.")
@@ -89,6 +101,13 @@ elif aba == "Evolução Temporal":
 
     fig = px.line(evolucao, x='Mês', y='Total', markers=True,
                   title="📅 Evolução Mensal de Pacientes", template="plotly_dark")
+    fig.update_layout(
+        paper_bgcolor="#0f1117",
+        plot_bgcolor="#0f1117",
+        font_color="white",
+        title_font_size=20,
+        title_x=0.5
+    )
     st.plotly_chart(fig, use_container_width=True)
 
 elif aba == "Mapa dos Pacientes":

@@ -6,6 +6,15 @@ from utils.mapa import mostrar_mapa
 
 st.set_page_config(page_title="Dashboard Diabetes", layout="wide")
 
+# --- LOGIN ---
+senha = st.sidebar.text_input("🔐 Digite a senha:", type="password")
+if senha != "1234":
+    st.warning("Acesso negado. Informe a senha correta.")
+    st.stop()
+
+# --- MENU DE NAVEGAÇÃO ---
+aba = st.sidebar.radio("📂 Navegação", ["Visão Geral", "Gráfico de Sexo", "Evolução Temporal", "Mapa dos Pacientes"])
+
 st.markdown("## 💼 Dashboard Estilo Power BI - Diabetes")
 st.markdown("> Análise de pacientes com estilo moderno e profissional.")
 

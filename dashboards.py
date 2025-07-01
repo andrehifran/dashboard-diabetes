@@ -3,6 +3,7 @@ import pandas as pd
 import plotly.express as px
 from utils.mapa import mostrar_mapa
 
+
 st.set_page_config(page_title="Dashboard Diabetes", layout="wide")
 
 st.markdown("## 💼 Dashboard Estilo Power BI - Diabetes")

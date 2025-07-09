@@ -55,40 +55,6 @@ elif aba == "Gráfico de Sexo":
 
     st.write("🔎 Dados usados no gráfico de pizza:")
     st.dataframe(df_grafico)
-st.subheader("📊 Distribuição por Sexo")
-
-df_grafico = df_porc.copy()
-
-# Aplicar filtros
-if 'Cidade' in df_porc.columns and cidade_selecionada:
-    df_grafico = df_grafico[df_grafico["Cidade"].isin(cidade_selecionada)]
-
-if 'Faixa Etária' in df_porc.columns and faixa_selecionada:
-    df_grafico = df_grafico[df_grafico["Faixa Etária"].isin(faixa_selecionada)]
-
-# Limpar e verificar colunas
-if "Sexo" in df_grafico.columns and "Porcentagem" in df_grafico.columns:
-    df_grafico = df_grafico.dropna(subset=["Sexo", "Porcentagem"])
-    df_grafico["Porcentagem"] = pd.to_numeric(df_grafico["Porcentagem"], errors="coerce")
-    df_grafico = df_grafico.dropna(subset=["Porcentagem"])
-
-    # Verificar se está vazio após limpeza
-    if df_grafico.empty:
-        st.warning("⚠️ Nenhum dado disponível para o gráfico com os filtros aplicados.")
-    else:
-        fig = px.pie(
-            df_grafico,
-            names="Sexo",
-            values="Porcentagem",
-            hole=0.4,
-            textinfo="label+percent",
-            color="Sexo",
-            color_discrete_map={"Feminino": "#ff69b4", "Masculino": "#1f77b4"}
-        )
-        fig.update_layout(paper_bgcolor="#0f1117", plot_bgcolor="#0f1117", font_color="white")
-        st.plotly_chart(fig, use_container_width=True)
-else:
-    st.warning("⚠️ Colunas 'Sexo' ou 'Porcentagem' ausentes no arquivo.")
 
     if df_grafico.empty:
         st.warning("⚠️ Nenhum dado válido para o gráfico.")

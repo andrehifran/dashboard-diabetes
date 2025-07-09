@@ -59,11 +59,9 @@ if aba == "Visão Geral":
     st.dataframe(df_filtrado[mostrar], use_container_width=True)
     st.download_button("⬇️ Baixar dados como CSV", df_filtrado.to_csv(index=False), "dados_filtrados.csv")
 
-    
 elif aba == "Gráfico de Sexo":
     st.subheader("📊 Distribuição por Sexo")
 
-    # Aplicar filtros
     df_grafico = df_porc.copy()
 
     if "Cidade" in df_grafico.columns and cidade_selecionada:
@@ -100,3 +98,18 @@ elif aba == "Gráfico de Sexo":
         st.plotly_chart(fig, use_container_width=True)
     else:
         st.warning("⚠️ Nenhum dado válido para os filtros selecionados.")
+
+elif aba == "Evolução Temporal":
+    st.subheader("📈 Evolução por Data de Consulta")
+    df_filtrado['Data da Consulta'] = pd.to_datetime(df_filtrado['Data da Consulta'], errors='coerce')
+    evolucao = df_filtrado.groupby(df_filtrado['Data da Consulta'].dt.to_period('M')).size().reset_index()
+    evolucao.columns = ['Mês', 'Total']
+    evolucao['Mês'] = evolucao['Mês'].astype(str)
+
+    fig = px.line(evolucao, x='Mês', y='Total', markers=True, text='Total')
+    fig.update_layout(title="📅 Evolução Mensal", paper_bgcolor="#0f1117",
+                      plot_bgcolor="#0f1117", font_color="white", title_x=0.5)
+    st.plotly_chart(fig, use_container_width=True)
+
+elif aba == "Mapa dos Pacientes":
+    mostrar_mapa(df_filtrado)

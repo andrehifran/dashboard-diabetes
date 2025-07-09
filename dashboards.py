@@ -76,7 +76,6 @@ elif aba == "Gráfico de Sexo":
 
     if not df_grafico.empty:
         tipo = st.radio("📈 Tipo de gráfico", ["Pizza", "Barras"])
-        
         if tipo == "Pizza":
             fig = px.pie(df_grafico, names="Sexo", values="Porcentagem", hole=0.4,
                          textinfo="label+percent", color="Sexo",

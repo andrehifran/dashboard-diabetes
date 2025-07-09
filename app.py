@@ -3,6 +3,32 @@ import pandas as pd
 import plotly.express as px
 from utils.mapa import mostrar_mapa
 
+# =================== LOGIN ====================
+import streamlit as st
+
+# Defina login e senha padrão
+USER = "admin"
+PASSWORD = "admin"
+
+# Cria estado de autenticação
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
+
+# Tela de login
+if not st.session_state.logged_in:
+    st.title("🔐 Login")
+    usuario = st.text_input("Usuário")
+    senha = st.text_input("Senha", type="password")
+    if st.button("Entrar"):
+        if usuario == USER and senha == PASSWORD:
+            st.session_state.logged_in = True
+            st.success("✅ Login realizado com sucesso!")
+            st.experimental_rerun()
+        else:
+            st.error("❌ Usuário ou senha inválidos.")
+    st.stop()  # Impede acesso ao restante do app se não logado
+
+
 st.set_page_config(page_title="Dashboard Diabetes", layout="wide")
 
 st.markdown("## 💼 Dashboard Estilo Power BI - Diabetes")

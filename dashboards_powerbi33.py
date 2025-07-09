@@ -64,32 +64,28 @@ elif aba == "Gráfico de Sexo":
 
     df_grafico = df_porc.copy()
 
-    # Filtro por cidade
     if "Cidade" in df_grafico.columns and cidade_selecionada:
         df_grafico = df_grafico[df_grafico["Cidade"].isin(cidade_selecionada)]
-
-    # Filtro por faixa etária
     if "Faixa Etária" in df_grafico.columns and faixa_selecionada:
         df_grafico = df_grafico[df_grafico["Faixa Etária"].isin(faixa_selecionada)]
 
-    # Limpeza e verificação
     df_grafico = df_grafico.dropna(subset=["Sexo", "Porcentagem"])
     df_grafico = df_grafico[df_grafico["Sexo"].astype(str).str.strip() != ""]
-    df_grafico["Porcentagem"] = (
-        df_grafico["Porcentagem"]
-        .astype(str)
-        .str.replace(",", ".")  # Corrige vírgulas decimais
-    )
+    df_grafico["Porcentagem"] = df_grafico["Porcentagem"].astype(str).str.replace(",", ".")
     df_grafico["Porcentagem"] = pd.to_numeric(df_grafico["Porcentagem"], errors="coerce")
     df_grafico = df_grafico.dropna(subset=["Porcentagem"])
+    df_grafico = df_grafico[df_grafico["Porcentagem"] > 0]
 
-    if df_grafico.empty:
+    st.write("🔍 Visualizando dados limpos para o gráfico:")
+    st.dataframe(df_grafico)
+
+    if df_grafico.empty or df_grafico["Porcentagem"].sum() <= 0:
         st.warning("⚠️ Nenhum dado válido para os filtros selecionados.")
     else:
         tipo = st.radio("📈 Tipo de gráfico", ["Pizza", "Barras"])
 
-        if tipo == "Pizza":
-            try:
+        try:
+            if tipo == "Pizza":
                 fig = px.pie(
                     df_grafico,
                     names="Sexo",
@@ -99,18 +95,33 @@ elif aba == "Gráfico de Sexo":
                     color="Sexo",
                     color_discrete_map={"Feminino": "#ff69b4", "Masculino": "#1f77b4"},
                 )
-                fig.update_layout(paper_bgcolor="#0f1117", plot_bgcolor="#0f1117", font_color="white")
-                st.plotly_chart(fig, use_container_width=True)
-            except Exception as e:
-                st.error(f"❌ Erro ao gerar gráfico de pizza: {e}")
-        else:
-            fig = px.bar(
-                df_grafico,
-                x="Sexo",
-                y="Porcentagem",
-                text_auto=".2f",
-                color="Sexo",
-                color_discrete_map={"Feminino": "#ff69b4", "Masculino": "#1f77b4"},
-            )
+            else:
+                fig = px.bar(
+                    df_grafico,
+                    x="Sexo",
+                    y="Porcentagem",
+                    text_auto=".2f",
+                    color="Sexo",
+                    color_discrete_map={"Feminino": "#ff69b4", "Masculino": "#1f77b4"},
+                )
+
             fig.update_layout(paper_bgcolor="#0f1117", plot_bgcolor="#0f1117", font_color="white")
             st.plotly_chart(fig, use_container_width=True)
+
+        except Exception as e:
+            st.error(f"❌ Erro ao gerar gráfico: {e}")
+
+elif aba == "Evolução Temporal":
+    st.subheader("📈 Evolução por Data de Consulta")
+    df_filtrado['Data da Consulta'] = pd.to_datetime(df_filtrado['Data da Consulta'], errors='coerce')
+    evolucao = df_filtrado.groupby(df_filtrado['Data da Consulta'].dt.to_period('M')).size().reset_index()
+    evolucao.columns = ['Mês', 'Total']
+    evolucao['Mês'] = evolucao['Mês'].astype(str)
+
+    fig = px.line(evolucao, x='Mês', y='Total', markers=True, text='Total')
+    fig.update_layout(title="📅 Evolução Mensal", paper_bgcolor="#0f1117",
+                      plot_bgcolor="#0f1117", font_color="white", title_x=0.5)
+    st.plotly_chart(fig, use_container_width=True)
+
+elif aba == "Mapa dos Pacientes":
+    mostrar_mapa(df_filtrado)

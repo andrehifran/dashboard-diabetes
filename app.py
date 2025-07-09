@@ -13,10 +13,16 @@ def remover_acentos(texto):
     return unicodedata.normalize('NFKD', str(texto)).encode('ASCII', 'ignore').decode('ASCII')
 
 # --- LOGIN ---
-senha = st.sidebar.text_input("🔐 Digite a senha:", type="password")
-if senha != "1234":
-    st.warning("Acesso negado. Informe a senha correta.")
+st.sidebar.header("🔐 Login")
+
+usuario = st.sidebar.text_input("Usuário")
+senha = st.sidebar.text_input("Senha", type="password")
+
+# Login padrão: admin / admin
+if usuario != "admin" or senha != "admin":
+    st.warning("Acesso negado. Informe credenciais válidas.")
     st.stop()
+
 
 # --- DADOS ---
 df = pd.read_csv("data/dados_diabetes.csv")

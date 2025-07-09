@@ -99,6 +99,9 @@ elif aba == "Gráfico de Sexo":
                     hole=0.4,
                     color="Sexo",
                     color_discrete_map={"Feminino": "#ff69b4", "Masculino": "#1f77b4"},
+                        # Ajuste o texto mostrado dentro das fatias do gráfico
+                          # Aqui mostramos label e percent
+                           texttemplate='%{label}: %{percent}',
                 )
                 fig.update_traces(textinfo="label+percent")
             else:

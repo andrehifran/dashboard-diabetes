@@ -59,37 +59,44 @@ if aba == "Visão Geral":
     st.dataframe(df_filtrado[mostrar], use_container_width=True)
     st.download_button("⬇️ Baixar dados como CSV", df_filtrado.to_csv(index=False), "dados_filtrados.csv")
 
+    
 elif aba == "Gráfico de Sexo":
     st.subheader("📊 Distribuição por Sexo")
-    df_grafico = df_porc[df_porc['Cidade'].isin(cidade_selecionada)]
-    if 'Faixa Etária' in df_porc.columns:
-        df_grafico = df_grafico[df_grafico['Faixa Etária'].isin(faixa_selecionada)]
+
+    # Aplicar filtros
+    df_grafico = df_porc.copy()
+
+    if "Cidade" in df_grafico.columns and cidade_selecionada:
+        df_grafico = df_grafico[df_grafico["Cidade"].isin(cidade_selecionada)]
+
+    if "Faixa Etária" in df_grafico.columns and faixa_selecionada:
+        df_grafico = df_grafico[df_grafico["Faixa Etária"].isin(faixa_selecionada)]
+
+    # Limpar e validar os dados
+    df_grafico = df_grafico.dropna(subset=["Sexo", "Porcentagem"])
+    df_grafico["Porcentagem"] = pd.to_numeric(df_grafico["Porcentagem"], errors="coerce")
+    df_grafico = df_grafico.dropna(subset=["Porcentagem"])
 
     if not df_grafico.empty:
         tipo = st.radio("📈 Tipo de gráfico", ["Pizza", "Barras"])
+
         if tipo == "Pizza":
-            fig = px.pie(df_grafico, names="Sexo", values="Porcentagem", hole=0.4,
-                         textinfo="label+percent", color="Sexo",
+            fig = px.pie(df_grafico,
+                         names="Sexo",
+                         values="Porcentagem",
+                         hole=0.4,
+                         textinfo="label+percent",
+                         color="Sexo",
                          color_discrete_map={"Feminino": "#ff69b4", "Masculino": "#1f77b4"})
         else:
-            fig = px.bar(df_grafico, x="Sexo", y="Porcentagem", text_auto=".2f", color="Sexo",
+            fig = px.bar(df_grafico,
+                         x="Sexo",
+                         y="Porcentagem",
+                         text_auto=".2f",
+                         color="Sexo",
                          color_discrete_map={"Feminino": "#ff69b4", "Masculino": "#1f77b4"})
+
         fig.update_layout(paper_bgcolor="#0f1117", plot_bgcolor="#0f1117", font_color="white")
         st.plotly_chart(fig, use_container_width=True)
     else:
-        st.warning("⚠️ Nenhum dado encontrado para o filtro.")
-
-elif aba == "Evolução Temporal":
-    st.subheader("📈 Evolução por Data de Consulta")
-    df_filtrado['Data da Consulta'] = pd.to_datetime(df_filtrado['Data da Consulta'], errors='coerce')
-    evolucao = df_filtrado.groupby(df_filtrado['Data da Consulta'].dt.to_period('M')).size().reset_index()
-    evolucao.columns = ['Mês', 'Total']
-    evolucao['Mês'] = evolucao['Mês'].astype(str)
-
-    fig = px.line(evolucao, x='Mês', y='Total', markers=True, text='Total')
-    fig.update_layout(title="📅 Evolução Mensal", paper_bgcolor="#0f1117",
-                      plot_bgcolor="#0f1117", font_color="white", title_x=0.5)
-    st.plotly_chart(fig, use_container_width=True)
-
-elif aba == "Mapa dos Pacientes":
-    mostrar_mapa(df_filtrado)
+        st.warning("⚠️ Nenhum dado válido para os filtros selecionados.")

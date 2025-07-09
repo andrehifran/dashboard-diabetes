@@ -72,6 +72,7 @@ elif aba == "Gráfico de Sexo":
     df_grafico = df_grafico.dropna(subset=["Sexo", "Porcentagem"])
     df_grafico = df_grafico[df_grafico["Sexo"].astype(str).str.strip() != ""]
 
+    # Normaliza porcentagem: corrige vírgula, remove % e converte
     df_grafico["Porcentagem"] = (
         df_grafico["Porcentagem"]
         .astype(str)
@@ -132,3 +133,4 @@ elif aba == "Evolução Temporal":
 
 elif aba == "Mapa dos Pacientes":
     mostrar_mapa(df_filtrado)
+

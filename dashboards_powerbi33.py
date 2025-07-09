@@ -2,6 +2,9 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from utils.mapa import mostrar_mapa
+import numpy as np
+import matplotlib.pyplot as plt # type: ignore
+# 
 
 st.set_page_config(page_title="Dashboard Diabetes", layout="wide")
 

@@ -71,15 +71,22 @@ elif aba == "Gráfico de Sexo":
 
     df_grafico = df_grafico.dropna(subset=["Sexo", "Porcentagem"])
     df_grafico = df_grafico[df_grafico["Sexo"].astype(str).str.strip() != ""]
-    df_grafico["Porcentagem"] = df_grafico["Porcentagem"].astype(str).str.replace(",", ".")
+
+    # Normaliza porcentagem: corrige vírgula, remove % e converte
+    df_grafico["Porcentagem"] = (
+        df_grafico["Porcentagem"]
+        .astype(str)
+        .str.replace(",", ".", regex=False)
+        .str.replace("%", "", regex=False)
+    )
     df_grafico["Porcentagem"] = pd.to_numeric(df_grafico["Porcentagem"], errors="coerce")
     df_grafico = df_grafico.dropna(subset=["Porcentagem"])
     df_grafico = df_grafico[df_grafico["Porcentagem"] > 0]
 
-    st.write("🔍 Visualizando dados limpos para o gráfico:")
+    st.write("🔍 Dados para o gráfico:")
     st.dataframe(df_grafico)
 
-    if df_grafico.empty or df_grafico["Porcentagem"].sum() <= 0:
+    if df_grafico.empty:
         st.warning("⚠️ Nenhum dado válido para os filtros selecionados.")
     else:
         tipo = st.radio("📈 Tipo de gráfico", ["Pizza", "Barras"])
@@ -91,10 +98,10 @@ elif aba == "Gráfico de Sexo":
                     names="Sexo",
                     values="Porcentagem",
                     hole=0.4,
-                    textinfo="label+percent",
                     color="Sexo",
                     color_discrete_map={"Feminino": "#ff69b4", "Masculino": "#1f77b4"},
                 )
+                fig.update_traces(textinfo="label+percent")
             else:
                 fig = px.bar(
                     df_grafico,
@@ -109,7 +116,8 @@ elif aba == "Gráfico de Sexo":
             st.plotly_chart(fig, use_container_width=True)
 
         except Exception as e:
-            st.error(f"❌ Erro ao gerar gráfico: {e}")
+            st.error("❌ Erro ao gerar o gráfico.")
+            st.exception(e)
 
 elif aba == "Evolução Temporal":
     st.subheader("📈 Evolução por Data de Consulta")
@@ -125,3 +133,4 @@ elif aba == "Evolução Temporal":
 
 elif aba == "Mapa dos Pacientes":
     mostrar_mapa(df_filtrado)
+# --- FIM DO DASHBOARD ---
